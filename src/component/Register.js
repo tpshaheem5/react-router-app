@@ -7,15 +7,19 @@ function Register() {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
+
   const handleRegister = () => {
-    if (formData.password === formData.confirmPassword) {
+    const foundUser = state.find((user) => user.username === formData.username);
+    if (foundUser) {
+      alert("Username is already taken. Please choose a different username.");
+    } else if (formData.password === formData.confirmPassword) {
       setState((prevState) => [...state, formData]);
       navigate("/login");
     } else {
-      alert("password not match")
+      alert("Passwords do not match.");
     }
-    
   };
+  
 
   const handleInputChange = (e) => {
       const { name, value } = e.target;
