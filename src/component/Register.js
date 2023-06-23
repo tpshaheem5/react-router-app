@@ -1,54 +1,42 @@
-import React, { useContext, useState } from 'react';
-import {Link, useNavigate } from 'react-router-dom';
-import { Mycontext } from '../App';
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Mycontext } from "../App";
 
 function Register() {
   const { state, setState } = useContext(Mycontext);
-//   const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({});
   const navigate = useNavigate();
 
-//   const handleRegister = () => {
-//     // Perform registration logic here
-//     // ...
-//     setState((prevState) => ([
-//         ...state,
-//         formData
-//     ]));
-//     navigate('/login');
-//   };
+  const handleRegister = () => {
+    if (formData.password === formData.confirmPassword) {
+      setState((prevState) => [...state, formData]);
+      navigate("/login");
+    } else {
+      alert("password not match")
+    }
+    
+  };
 
-//   const handleInputChange = (e) => {
-    // const { name, value } = e.target;
-    //     setFormData((prevState) => ({
-        //       ...prevState,
-        //       [name]: value,
-        //     }));
-        //   };
-        const handleRegister=(e)=>{
-    const { name, value } = e.target;
-    setState([...state,{[name]:value}])
-    navigate('/login')
-console.warn(state);
-}
+  const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    
+  };
 
   return (
     <div>
       <h2>Register Page</h2>
-      <form onSubmit={handleRegister}>
-        <input type="text" placeholder="username" name="username" value={state.username} />
-        <input type="text" placeholder="email" name="email" value={state.email} />
-        <input type="password" placeholder="password" name="password" value={state.password} />
-        <input
-          type="password"
-          placeholder="confirm password"
-          name="confirmPassword"
-          value={state.confirmPassword}
-        />
+      <form>
+        <input type="text"placeholder="username"  name="username"value={state.username} onChange={handleInputChange}/>
+        <input type="text"placeholder="email" name="email" value={state.email}onChange={handleInputChange}/>
+        <input type="password"placeholder="password"name="password"value={state.password}onChange={handleInputChange}/>
+        <input type="password"placeholder="confirm password"name="confirmPassword"value={state.confirmPassword}onChange={handleInputChange}/>
       </form>
       <button onClick={handleRegister}>Register</button>
-      <p >
-        Already have an account? 
-      </p>
+      <p>Already have an account? <Link to="/login">Login</Link></p>
     </div>
   );
 }
